@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Oscar González Bello — Cloud &amp; Security Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0A1626;
+    --bg-panel: #0F1F35;
+    --bg-panel-2: #0C1A2E;
+    --grid-line: rgba(111, 211, 199, 0.06);
+    --border: #1D3852;
+    --border-soft: #16293F;
+    --text: #E8EEF3;
+    --text-muted: #6E8CA3;
+    --text-dim: #4A6478;
+    --accent-amber: #E8A33D;
+    --accent-cyan: #6FD3C7;
+    --accent-red: #E2604F;
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --font-mono: 'IBM Plex Mono', monospace;
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+
+  html{ scroll-behavior:smooth; }
+
+  body{
+    background:
+      linear-gradient(var(--grid-line) 1px, transparent 1px) 0 0 / 48px 48px,
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px) 0 0 / 48px 48px,
+      var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection{ background: var(--accent-amber); color: #0A1626; }
+
+  a{ color: inherit; text-decoration:none; }
+
+  .wrap{ max-width: 1080px; margin: 0 auto; padding: 0 32px; }
+
+  /* ---------- NAV ---------- */
+  header.nav{
+    position: sticky; top:0; z-index: 50;
+    background: rgba(10,22,38,0.88);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .nav-inner{
+    max-width: 1080px; margin:0 auto; padding: 18px 32px;
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .nav-id{
+    font-family: var(--font-mono); font-size: 13px; color: var(--accent-cyan);
+    display:flex; align-items:center; gap:8px;
+  }
+  .nav-id .dot{
+    width:7px; height:7px; border-radius:50%; background: var(--accent-cyan);
+    box-shadow: 0 0 8px var(--accent-cyan);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse{ 0%,100%{ opacity:1; } 50%{ opacity:0.35; } }
+  nav.links{ display:flex; gap: 28px; }
+  nav.links a{
+    font-family: var(--font-mono); font-size: 12.5px; letter-spacing: 0.04em;
+    color: var(--text-muted); text-transform: uppercase; transition: color .15s;
+  }
+  nav.links a:hover{ color: var(--accent-amber); }
+  @media (max-width: 720px){ nav.links{ display:none; } }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding: 84px 0 64px;
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .hero-grid{
+    display:grid; grid-template-columns: 1.1fr 0.9fr; gap: 40px; align-items:center;
+  }
+  @media (max-width: 860px){ .hero-grid{ grid-template-columns: 1fr; } }
+
+  .eyebrow{
+    font-family: var(--font-mono); font-size: 12.5px; color: var(--accent-cyan);
+    letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 18px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .eyebrow::before{ content:'['; color: var(--text-dim); }
+  .eyebrow::after{ content:']'; color: var(--text-dim); }
+
+  h1.title{
+    font-family: var(--font-display); font-weight: 700;
+    font-size: clamp(34px, 5vw, 54px); line-height: 1.08;
+    letter-spacing: -0.02em; margin-bottom: 14px;
+  }
+  h1.title span{ color: var(--accent-amber); }
+
+  .role-line{
+    font-size: 17px; color: var(--text-muted); margin-bottom: 28px; max-width: 520px;
+  }
+
+  .hero-meta{
+    display:flex; flex-wrap:wrap; gap: 22px; margin-bottom: 32px;
+    font-family: var(--font-mono); font-size: 13px; color: var(--text-muted);
+  }
+  .hero-meta span{ display:flex; align-items:center; gap:7px; }
+  .hero-meta svg{ width:14px; height:14px; stroke: var(--accent-cyan); flex-shrink:0; }
+
+  .hero-cta{ display:flex; gap:14px; flex-wrap:wrap; }
+  .btn{
+    font-family: var(--font-mono); font-size: 13px; padding: 12px 22px;
+    border-radius: 3px; border: 1px solid var(--border); transition: all .15s;
+    display:inline-flex; align-items:center; gap:8px;
+  }
+  .btn-primary{ background: var(--accent-amber); color: #14100A; border-color: var(--accent-amber); font-weight:600; }
+  .btn-primary:hover{ background: #f0b054; }
+  .btn-ghost{ color: var(--text); }
+  .btn-ghost:hover{ border-color: var(--accent-cyan); color: var(--accent-cyan); }
+
+  /* ---------- TOPOLOGY DIAGRAM ---------- */
+  .topo-panel{
+    background: var(--bg-panel); border: 1px solid var(--border); border-radius: 6px;
+    padding: 18px 18px 14px;
+  }
+  .topo-header{
+    display:flex; justify-content:space-between; align-items:center;
+    font-family: var(--font-mono); font-size: 11px; color: var(--text-dim);
+    text-transform:uppercase; letter-spacing:0.08em; margin-bottom: 6px;
+    padding-bottom: 10px; border-bottom: 1px solid var(--border-soft);
+  }
+  .topo-header .status{ color: var(--accent-cyan); }
+  svg.topo{ width:100%; height:auto; display:block; }
+  .node-label{ font-family: var(--font-mono); font-size: 12px; fill: var(--text); font-weight:600; }
+  .node-sub{ font-family: var(--font-mono); font-size: 8.5px; fill: var(--text-dim); }
+  .connection{ stroke: var(--border); stroke-width: 1.4; fill:none; }
+  .connection.live{ stroke: var(--accent-cyan); stroke-opacity:0.55; stroke-dasharray: 3 5; animation: flow 1.2s linear infinite; }
+  @keyframes flow{ to{ stroke-dashoffset: -16; } }
+  .node-circle{ fill: var(--bg-panel-2); stroke: var(--border); stroke-width:1.4; }
+  .node-circle.center{ stroke: var(--accent-amber); fill: #16233A; }
+
+  /* ---------- SECTION SHARED ---------- */
+  section{ padding: 72px 0; border-bottom: 1px solid var(--border-soft); }
+  .sec-head{ display:flex; align-items:baseline; gap:14px; margin-bottom: 40px; }
+  .sec-num{ font-family: var(--font-mono); font-size: 13px; color: var(--accent-amber); }
+  h2.sec-title{
+    font-family: var(--font-display); font-weight:600; font-size: 26px; letter-spacing: -0.01em;
+  }
+  .sec-line{ flex:1; height:1px; background: var(--border-soft); }
+
+  /* ---------- PROFILE ---------- */
+  .profile-text{ max-width: 720px; color: var(--text-muted); font-size: 16px; }
+  .profile-text p + p{ margin-top: 16px; }
+  .profile-text strong{ color: var(--text); font-weight:600; }
+
+  .stack-row{ display:flex; flex-wrap:wrap; gap:10px; margin-top: 30px; }
+  .tag{
+    font-family: var(--font-mono); font-size: 12.5px; color: var(--accent-cyan);
+    border: 1px solid var(--border); padding: 6px 12px; border-radius: 3px;
+  }
+
+  /* ---------- EXPERIENCE / DEPLOY LOG ---------- */
+  .log{ position:relative; }
+  .log::before{
+    content:''; position:absolute; left: 7px; top: 6px; bottom: 6px; width:1px;
+    background: var(--border);
+  }
+  .log-entry{ position:relative; padding-left: 40px; padding-bottom: 40px; }
+  .log-entry:last-child{ padding-bottom: 0; }
+  .log-dot{
+    position:absolute; left:0; top:5px; width:15px; height:15px; border-radius:50%;
+    background: var(--bg-panel); border:2px solid var(--accent-cyan);
+  }
+  .log-entry.current .log-dot{ border-color: var(--accent-amber); box-shadow: 0 0 0 4px rgba(232,163,61,0.12); }
+  .log-meta{
+    display:flex; flex-wrap:wrap; align-items:center; gap:12px; margin-bottom:8px;
+    font-family: var(--font-mono); font-size: 12px; color: var(--text-dim);
+  }
+  .log-status{ color: var(--accent-cyan); }
+  .log-entry.current .log-status{ color: var(--accent-amber); }
+  .log-role{ font-family: var(--font-display); font-size: 19px; font-weight:600; margin-bottom:3px; }
+  .log-company{ font-family: var(--font-mono); font-size: 13px; color: var(--text-muted); margin-bottom: 12px; display:block; }
+  .log-desc{ color: var(--text-muted); font-size: 15px; max-width: 680px; }
+  .log-desc b{ color: var(--text); font-weight:600; }
+
+  /* ---------- CERTIFICATIONS ---------- */
+  .cert-groups{ display:grid; grid-template-columns: repeat(2, 1fr); gap: 28px; }
+  @media (max-width: 720px){ .cert-groups{ grid-template-columns: 1fr; } }
+  .cert-group{
+    background: var(--bg-panel); border:1px solid var(--border-soft); border-radius:6px; padding: 22px 24px;
+  }
+  .cert-group h3{
+    font-family: var(--font-mono); font-size: 12px; text-transform:uppercase; letter-spacing:0.08em;
+    color: var(--accent-amber); margin-bottom: 16px; padding-bottom:12px; border-bottom:1px solid var(--border-soft);
+  }
+  .cert-item{
+    display:flex; justify-content:space-between; gap:10px; font-size:14px; color: var(--text);
+    padding: 7px 0; border-bottom: 1px dashed var(--border-soft);
+  }
+  .cert-item:last-child{ border-bottom:none; }
+  .cert-year{ font-family: var(--font-mono); font-size:12.5px; color: var(--text-dim); flex-shrink:0; }
+
+  /* ---------- EDUCATION ---------- */
+  .edu-row{ display:flex; gap: 26px; flex-wrap:wrap; }
+  .edu-card{
+    flex:1; min-width: 260px; background: var(--bg-panel); border:1px solid var(--border-soft);
+    border-radius:6px; padding: 24px;
+  }
+  .edu-year{ font-family: var(--font-mono); color: var(--accent-cyan); font-size:13px; margin-bottom:8px; }
+  .edu-degree{ font-family: var(--font-display); font-size:18px; font-weight:600; margin-bottom:4px; }
+  .edu-school{ color: var(--text-muted); font-size:14px; }
+
+  /* ---------- CONTACT / FOOTER ---------- */
+  footer{ padding: 72px 0 48px; }
+  .contact-panel{
+    background: var(--bg-panel); border:1px solid var(--border); border-radius:8px;
+    padding: 48px; text-align:center;
+  }
+  .contact-panel h2{
+    font-family: var(--font-display); font-size: 30px; font-weight:700; margin-bottom:14px;
+  }
+  .contact-panel p{ color: var(--text-muted); margin-bottom: 30px; }
+  .contact-links{ display:flex; justify-content:center; gap:16px; flex-wrap:wrap; }
+  .footer-note{
+    text-align:center; margin-top: 36px; font-family: var(--font-mono); font-size:12px; color: var(--text-dim);
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner">
+    <div class="nav-id"><span class="dot"></span>oscar_gonzalez.sys</div>
+    <nav class="links">
+      <a href="#perfil">Perfil</a>
+      <a href="#experiencia">Experiencia</a>
+      <a href="#stack">Stack</a>
+      <a href="#certificaciones">Certificaciones</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- HERO -->
+  <section class="hero" style="border-bottom:none;">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow">Systems online desde 2011</div>
+        <h1 class="title">Oscar González<br>Bello<span>.</span></h1>
+        <p class="role-line">Ingeniero de Sistemas y CISO. Diseño, aseguro y mantengo infraestructura cloud multi-región para fintech y healthtech, desde el primer commit hasta la certificación de cumplimiento.</p>
+        <div class="hero-meta">
+          <span><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>Cali, Colombia</span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>oscar.gonzalez.bello@gmail.com</span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.1-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.7a2 2 0 0 1-.5 2.1L8 9.7a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.5 2.7.6a2 2 0 0 1 1.7 2z"/></svg>+57 315 242 7982</span>
+        </div>
+        <div class="hero-cta">
+          <a href="#experiencia" class="btn btn-primary">Ver experiencia →</a>
+          <a href="#contacto" class="btn btn-ghost">Contactar</a>
+        </div>
+      </div>
+
+      <div class="topo-panel">
+        <div class="topo-header"><span>arquitectura // resumen.svg</span><span class="status">● activo</span></div>
+        <svg class="topo" viewBox="0 0 460 340" xmlns="http://www.w3.org/2000/svg">
+          <line class="connection live" x1="230" y1="170" x2="120" y2="65"/>
+          <line class="connection live" x1="230" y1="170" x2="340" y2="65"/>
+          <line class="connection live" x1="230" y1="170" x2="80" y2="210"/>
+          <line class="connection live" x1="230" y1="170" x2="380" y2="210"/>
+          <line class="connection live" x1="230" y1="170" x2="230" y2="300"/>
+
+          <circle class="node-circle center" cx="230" cy="170" r="34"/>
+          <text x="230" y="161" text-anchor="middle" class="node-label" fill="var(--accent-amber)">OGB</text>
+          <text x="230" y="177" text-anchor="middle" class="node-sub">DevOps · SRE</text>
+          <text x="230" y="188" text-anchor="middle" class="node-sub">CISO</text>
+
+          <circle class="node-circle" cx="120" cy="65" r="26"/>
+          <text x="120" y="59" text-anchor="middle" class="node-label">AWS</text>
+          <text x="120" y="70" text-anchor="middle" class="node-sub">multi-región</text>
+          <text x="120" y="80" text-anchor="middle" class="node-sub">experto</text>
+
+          <circle class="node-circle" cx="340" cy="65" r="26"/>
+          <text x="340" y="59" text-anchor="middle" class="node-label">GCP</text>
+          <text x="340" y="70" text-anchor="middle" class="node-sub">prod · stg</text>
+          <text x="340" y="80" text-anchor="middle" class="node-sub">avanzado</text>
+
+          <circle class="node-circle" cx="80" cy="210" r="26"/>
+          <text x="80" y="204" text-anchor="middle" class="node-label">AZ</text>
+          <text x="80" y="215" text-anchor="middle" class="node-sub">híbrido</text>
+          <text x="80" y="225" text-anchor="middle" class="node-sub">experto</text>
+
+          <circle class="node-circle" cx="380" cy="210" r="26"/>
+          <text x="380" y="204" text-anchor="middle" class="node-label">OCI</text>
+          <text x="380" y="215" text-anchor="middle" class="node-sub">multi-región</text>
+          <text x="380" y="225" text-anchor="middle" class="node-sub">intermedio</text>
+
+          <circle class="node-circle" cx="230" cy="300" r="26"/>
+          <text x="230" y="297" text-anchor="middle" class="node-label">ISO</text>
+          <text x="230" y="309" text-anchor="middle" class="node-sub">27001 · SOC2</text>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- PERFIL -->
+  <section id="perfil">
+    <div class="sec-head"><span class="sec-num">01</span><h2 class="sec-title">Perfil</h2><div class="sec-line"></div></div>
+    <div class="profile-text">
+      <p>Llevo más de trece años moviéndome entre infraestructura, seguridad y automatización, y en los últimos dos he liderado esa combinación como <strong>DevOps Engineer, SysAdmin y CISO en Welli</strong>, una fintech/healthtech colombiana que opera en Colombia y Perú. Ahí diseño la arquitectura cloud, cierro el círculo de cumplimiento normativo (ISO 27001, SOC 2, Ley 1581) y respondo cuando algo se cae a las 2am.</p>
+      <p>Mi trabajo se mueve en dos capas al mismo tiempo: la de <strong>construir</strong> (pipelines, IaC, bases de datos, arquitecturas multi-nube) y la de <strong>proteger</strong> (IAM, hardening, auditorías, respuesta a incidentes). No las trato como cosas separadas: para mí, la infraestructura bien diseñada ya viene con la seguridad incorporada, no pegada después.</p>
+      <p>Antes de Welli pasé por roles de Cloud Engineer y SRE en empresas como <strong>Kyndryl, Siigo, PageGroup y Escala 24x7</strong>, siempre rotando entre AWS, Azure, GCP y OCI, hasta el punto de sentirme igual de cómodo diseñando una Landing Zone que investigando un pico de costos en Vertex AI.</p>
+    </div>
+    <div class="stack-row">
+      <span class="tag">AWS</span><span class="tag">GCP</span><span class="tag">Azure</span><span class="tag">OCI</span>
+      <span class="tag">Terraform</span><span class="tag">Kubernetes / EKS</span><span class="tag">Cloud Build</span>
+      <span class="tag">ISO 27001</span><span class="tag">SOC 2</span><span class="tag">Cloud Armor</span>
+      <span class="tag">Python · Bash · PowerShell</span><span class="tag">PostgreSQL / NoSQL</span>
+    </div>
+  </section>
+
+  <!-- STACK -->
+  <section id="stack">
+    <div class="sec-head"><span class="sec-num">02</span><h2 class="sec-title">Áreas de trabajo</h2><div class="sec-line"></div></div>
+    <div class="cert-groups">
+      <div class="cert-group">
+        <h3>Cloud &amp; Plataforma</h3>
+        <div class="cert-item"><span>Arquitectura multi-cloud (AWS, GCP, Azure, OCI)</span></div>
+        <div class="cert-item"><span>Arquitectura cell-based multi-país</span></div>
+        <div class="cert-item"><span>IaC con Terraform, CloudFormation y ARM</span></div>
+        <div class="cert-item"><span>Cloud Run, EKS/AKS, contenedores</span></div>
+        <div class="cert-item"><span>FinOps y optimización de costos</span></div>
+      </div>
+      <div class="cert-group">
+        <h3>Seguridad &amp; Cumplimiento</h3>
+        <div class="cert-item"><span>Liderazgo ISO 27001:2022 y SOC 2 Type II</span></div>
+        <div class="cert-item"><span>Gestión de IAM y superficie de ataque</span></div>
+        <div class="cert-item"><span>Cloud Armor, WAF, geo-bloqueo, rate limiting</span></div>
+        <div class="cert-item"><span>Investigación forense de incidentes</span></div>
+        <div class="cert-item"><span>Ley 1581 y protección de datos</span></div>
+      </div>
+      <div class="cert-group">
+        <h3>CI/CD &amp; Automatización</h3>
+        <div class="cert-item"><span>Pipelines estandarizados con Cloud Build</span></div>
+        <div class="cert-item"><span>SAST con Semgrep, escaneo con Trivy</span></div>
+        <div class="cert-item"><span>Scripting en Python, Bash y PowerShell</span></div>
+        <div class="cert-item"><span>Versionado con Git y administración GitHub</span></div>
+        <div class="cert-item"><span>Monitoreo con Prometheus, Grafana, Datadog</span></div>
+      </div>
+      <div class="cert-group">
+        <h3>Datos &amp; Redes</h3>
+        <div class="cert-item"><span>PostgreSQL y NoSQL a gran escala</span></div>
+        <div class="cert-item"><span>Replicación, particionamiento, retención</span></div>
+        <div class="cert-item"><span>VPN, balanceadores de carga, SSL</span></div>
+        <div class="cert-item"><span>BigQuery y analítica con IA (Vertex AI)</span></div>
+        <div class="cert-item"><span>Migraciones on-premise a la nube</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCIA -->
+  <section id="experiencia">
+    <div class="sec-head"><span class="sec-num">03</span><h2 class="sec-title">Historial de despliegue</h2><div class="sec-line"></div></div>
+    <div class="log">
+
+      <div class="log-entry current">
+        <div class="log-dot"></div>
+        <div class="log-meta"><span class="log-status">● en curso</span><span>May 2024 — Jun 2026</span></div>
+        <div class="log-role">DevOps Engineer / SysAdmin / CISO</div>
+        <span class="log-company">Welli SAS · Colombia &amp; Perú</span>
+        <div class="log-desc">Dueño de la seguridad de la información y la infraestructura cloud de la compañía. <b>Diseñé la arquitectura cell-based multi-país</b> sobre GCP y AWS, estandaricé los pipelines CI/CD con Cloud Build (Semgrep, Trivy), y lidero los procesos de certificación ISO 27001, SOC 2 Type II y Ley 1581. También llevo la administración de bases de datos a gran escala, seguridad perimetral con Cloud Armor y la investigación forense de incidentes.</div>
+      </div>
+
+      <div class="log-entry">
+        <div class="log-dot"></div>
+        <div class="log-meta"><span class="log-status">✓ completado</span><span>May 2023 — May 2024</span></div>
+        <div class="log-role">Cloud Engineer</div>
+        <span class="log-company">Escala 24x7</span>
+        <div class="log-desc">Lideré infraestructura y seguridad en AWS, implementando <b>IaC con Terraform y CloudFormation</b>, Landing Zone y Control Tower. Apliqué normativas de seguridad (PCI-DSS, NIST, CSF), automatización de respaldos y gestión de costos (FinOps) para clientes en distintos sectores.</div>
+      </div>
+
+      <div class="log-entry">
+        <div class="log-dot"></div>
+        <div class="log-meta"><span class="log-status">✓ completado</span><span>Feb 2022 — May 2023</span></div>
+        <div class="log-role">Cloud Infrastructure Engineer / SRE</div>
+        <span class="log-company">Ionix Chile</span>
+        <div class="log-desc">Responsable de infraestructura AWS, Azure y OCI en todos los ambientes, con soporte rotativo 24x7. Implementé <b>DevSecOps</b>, monitorización con Splunk y Datadog, gestión de clusters EKS/AKS y aseguramiento de código con TFSEC y Checkov.</div>
+      </div>
+
+      <div class="log-entry">
+        <div class="log-dot"></div>
+        <div class="log-meta"><span class="log-status">✓ completado</span><span>Feb 2022 — Ago 2022</span></div>
+        <div class="log-role">Cloud Engineer Senior</div>
+        <span class="log-company">DB-System · Kyndryl</span>
+        <div class="log-desc">Lideré despliegues multicloud (AWS, Azure, IBM, OCI) en preproducción y producción, con controles CIS/PCI-DSS, gestión de clusters EKS/AKS y balanceadores NLB/ALB/ELB.</div>
+      </div>
+
+      <div class="log-entry">
+        <div class="log-dot"></div>
+        <div class="log-meta"><span class="log-status">✓ completado</span><span>Jun 2020 — Ene 2022</span></div>
+        <div class="log-role">Azure Specialist</div>
+        <span class="log-company">Siigo</span>
+        <div class="log-desc">Optimicé soluciones on-premise y cloud (AWS, Azure) para reducir costos, gestionando pipelines con Azure DevOps y GitHub, backups (Veeam, TSM) y contenedores con Kubernetes y Docker.</div>
+      </div>
+
+      <div class="log-entry">
+        <div class="log-dot"></div>
+        <div class="log-meta"><span class="log-status">✓ completado</span><span>Feb 2020 — Sep 2022</span></div>
+        <div class="log-role">DevOps Engineer / SRE</div>
+        <span class="log-company">Michael Page / PageGroup</span>
+        <div class="log-desc">Dirigí el desarrollo de infraestructura de plataformas cloud orientadas al cliente en Azure, AWS, GCP y OCI, con pipelines CI/CD (Azure DevOps, GitLab, GitHub) y automatización en Python y PowerShell.</div>
+      </div>
+
+      <div class="log-entry">
+        <div class="log-dot"></div>
+        <div class="log-meta"><span class="log-status">✓ completado</span><span>Sep 2016 — Feb 2020</span></div>
+        <div class="log-role">Cloud IT Manager (DevOps/SRE)</div>
+        <span class="log-company">Keep It Simple</span>
+        <div class="log-desc">Lideré el diseño, instalación y mantenimiento de servidores multicloud (AWS, Azure, GCP, OCI), Office 365, VDI con Azure, hardening de servidores y administración de WAF y balanceadores.</div>
+      </div>
+
+      <div class="log-entry">
+        <div class="log-dot"></div>
+        <div class="log-meta"><span class="log-status">✓ completado</span><span>Jun 2015 — Sep 2016</span></div>
+        <div class="log-role">Web Master / Arquitecto Web</div>
+        <span class="log-company">Alfabet S.A.S.</span>
+        <div class="log-desc">Administré y aseguré sitios web y servidores (Apache, Tomcat, IIS) en AWS y Azure, incluyendo pasarelas de pago y administración de redes.</div>
+      </div>
+
+      <div class="log-entry">
+        <div class="log-dot"></div>
+        <div class="log-meta"><span class="log-status">✓ completado</span><span>Ene 2013 — Sep 2016</span></div>
+        <div class="log-role">Jefe de Seguridad Informática</div>
+        <span class="log-company">Suscerte</span>
+        <div class="log-desc">Encargado de seguridad perimetral, servidores de telefonía (Asterisk, Elastix), virtualización (VMware, Citrix, Proxmox) y cumplimiento de estándares PCI-DSS, NIST y CIS. Instructor certificado en informática forense.</div>
+      </div>
+
+      <div class="log-entry">
+        <div class="log-dot"></div>
+        <div class="log-meta"><span class="log-status">✓ completado</span><span>Ene 2013 — Ene 2014</span></div>
+        <div class="log-role">Analista de Soporte</div>
+        <span class="log-company">Experian Soluciones</span>
+        <div class="log-desc">Soporte remoto y presencial a clientes internacionales, gestión de SCCM y virtualización de sistemas operativos.</div>
+      </div>
+
+      <div class="log-entry">
+        <div class="log-dot"></div>
+        <div class="log-meta"><span class="log-status">✓ completado</span><span>Feb 2011 — Ene 2013</span></div>
+        <div class="log-role">Supervisor de Soporte Técnico</div>
+        <span class="log-company">Venezolana de Industria Tecnológica</span>
+        <div class="log-desc">Soporte técnico a equipos comercializados, elaboración de informes de gestión e instalación de sistemas operativos.</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CERTIFICACIONES -->
+  <section id="certificaciones">
+    <div class="sec-head"><span class="sec-num">04</span><h2 class="sec-title">Certificaciones</h2><div class="sec-line"></div></div>
+    <div class="cert-groups">
+      <div class="cert-group">
+        <h3>AWS</h3>
+        <div class="cert-item"><span>Solution Architect Professional</span><span class="cert-year">2026</span></div>
+        <div class="cert-item"><span>Certified AI Practitioner</span><span class="cert-year">2025</span></div>
+        <div class="cert-item"><span>Solution Architect Associate</span><span class="cert-year">2024</span></div>
+        <div class="cert-item"><span>Security Specialty</span><span class="cert-year">2024</span></div>
+        <div class="cert-item"><span>Cloud Practitioner Essentials</span><span class="cert-year">2019</span></div>
+        <div class="cert-item"><span>AWS Fundamentals</span><span class="cert-year">2019</span></div>
+      </div>
+      <div class="cert-group">
+        <h3>Azure &amp; Google Cloud</h3>
+        <div class="cert-item"><span>Azure Architect Expert</span><span class="cert-year">2025</span></div>
+        <div class="cert-item"><span>Azure Administrator</span><span class="cert-year">2025</span></div>
+        <div class="cert-item"><span>Google Associate Cloud Engineer</span><span class="cert-year">2026</span></div>
+        <div class="cert-item"><span>Azure Fundamentals</span><span class="cert-year">2019</span></div>
+        <div class="cert-item"><span>Azure Administrator (Lourtec)</span><span class="cert-year">2019</span></div>
+        <div class="cert-item"><span>Google Cloud Computing</span><span class="cert-year">2016</span></div>
+      </div>
+      <div class="cert-group">
+        <h3>Seguridad &amp; Forense</h3>
+        <div class="cert-item"><span>Análisis y Gestión de Riesgos</span><span class="cert-year">2018</span></div>
+        <div class="cert-item"><span>Análisis de Vulnerabilidades</span><span class="cert-year">2018</span></div>
+        <div class="cert-item"><span>Pentester Internacional</span><span class="cert-year">2016</span></div>
+        <div class="cert-item"><span>Hacking Ético Internacional</span><span class="cert-year">2016</span></div>
+        <div class="cert-item"><span>Informática Forense Internacional</span><span class="cert-year">2016</span></div>
+        <div class="cert-item"><span>Auditoría ISO/IEC 27001:2013</span><span class="cert-year">2015</span></div>
+      </div>
+      <div class="cert-group">
+        <h3>Gestión &amp; Metodologías</h3>
+        <div class="cert-item"><span>Diplomado DevOps</span><span class="cert-year">2023</span></div>
+        <div class="cert-item"><span>ITIL 4</span><span class="cert-year">2021</span></div>
+        <div class="cert-item"><span>Scrum Master</span><span class="cert-year">2021</span></div>
+        <div class="cert-item"><span>DevOps Fundamentals</span><span class="cert-year">2021</span></div>
+        <div class="cert-item"><span>Remote Work &amp; Virtual Collaboration</span><span class="cert-year">2021</span></div>
+        <div class="cert-item"><span>Windows Server 2016</span><span class="cert-year">2019</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCACIÓN -->
+  <section id="educacion">
+    <div class="sec-head"><span class="sec-num">05</span><h2 class="sec-title">Educación</h2><div class="sec-line"></div></div>
+    <div class="edu-row">
+      <div class="edu-card">
+        <div class="edu-year">2024</div>
+        <div class="edu-degree">Máster en Cloud Computing</div>
+        <div class="edu-school">Universidad de Villanueva — Immune Technology Institute</div>
+      </div>
+      <div class="edu-card">
+        <div class="edu-year">2012</div>
+        <div class="edu-degree">Ingeniería de Sistemas</div>
+        <div class="edu-school">Universidad Nacional Experimental de la Fuerza Armada (UNEFA)</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <footer id="contacto">
+    <div class="contact-panel">
+      <h2>¿Hablamos?</h2>
+      <p>Abierto a conversar sobre roles de arquitectura cloud, seguridad o liderazgo técnico.</p>
+      <div class="contact-links">
+        <a class="btn btn-primary" href="mailto:oscar.gonzalez.bello@gmail.com">Escribir un correo</a>
+        <a class="btn btn-ghost" href="https://www.linkedin.com/in/oscar-gonzález" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="btn btn-ghost" href="tel:+573152427982">+57 315 242 7982</a>
+      </div>
+    </div>
+    <div class="footer-note">Oscar González Bello · Cali, Colombia · última actualización 2026</div>
+  </footer>
+
+</main>
+
+</body>
+</html>
